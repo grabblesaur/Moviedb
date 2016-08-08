@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Moviedb</string>
+    <string name="overview">overiview</string>
+    <string name="detail_title">title</string>
+    <string name="detail_year">year</string>
+    <string name="detail_rating">rating</string>
+    <string name="detail_popularity">popularity</string>
+</resources>
