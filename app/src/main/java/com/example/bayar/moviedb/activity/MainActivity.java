@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.bayar.moviedb.R;
 import com.example.bayar.moviedb.adapter.MoviesAdapter;
+import com.example.bayar.moviedb.database.DatabaseHelper;
+import com.example.bayar.moviedb.database.DatabaseManager;
 import com.example.bayar.moviedb.model.Movie;
 import com.example.bayar.moviedb.model.MovieResponse;
 import com.example.bayar.moviedb.rest.ApiClient;
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
+    private List<Movie> mMovieList;
+    private DatabaseHelper mHelper;
+    private DatabaseManager mDatabaseManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +43,19 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
+        mHelper = new DatabaseHelper(this);
+        mDatabaseManager = new DatabaseManager(mHelper);
+
+        if (mDatabaseManager.getRowCount() == 0) {
+            fetchData();
+        } else {
+            mMovieList = mDatabaseManager.getMovies();
+        }
+
+        mRecyclerView.setAdapter(new MoviesAdapter(MainActivity.this, mMovieList));
+    }
+
+    private void fetchData() {
         // создание сервиса
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
@@ -45,9 +64,8 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                List<Movie> movies = response.body().getResults();
-                Log.d(TAG, "Numbeer of movies received: " + movies.size());
-                mRecyclerView.setAdapter(new MoviesAdapter(MainActivity.this, movies));
+                mMovieList = response.body().getResults();
+                Log.d(TAG, "Numbeer of movies received: " + mMovieList.size());
             }
 
             @Override
@@ -55,5 +73,13 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, t.toString());
             }
         });
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mDatabaseManager.removeMovies();
+        mDatabaseManager.insertMovies(mMovieList);
     }
 }

@@ -2,9 +2,17 @@ package com.example.bayar.moviedb.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 public class Movie {
+    private transient long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     @SerializedName("poster_path")
     private String posterPath;
     @SerializedName("adult")
@@ -13,10 +21,8 @@ public class Movie {
     private String overview;
     @SerializedName("release_date")
     private String releaseDate;
-    @SerializedName("genre_ids")
-    private List<Integer> genreIds;
     @SerializedName("id")
-    private Integer id;
+    private Integer externalId;
     @SerializedName("original_title")
     private String originalTitle;
     @SerializedName("original_language")
@@ -34,13 +40,16 @@ public class Movie {
     @SerializedName("vote_average")
     private Double voteAverage;
 
-    public Movie(String posterPath, Boolean isAdult, String overview, String releaseDate, List<Integer> genreIds, Integer id, String originalTitle, String originalLanguage, String title, String backdropPath, Double popularity, Integer voteCount, Boolean hasVideo, Double voteAverage) {
+    public Movie(long id, String posterPath, Boolean isAdult, String overview, String releaseDate,
+                 Integer externalId, String originalTitle, String originalLanguage, String title,
+                 String backdropPath, Double popularity, Integer voteCount, Boolean hasVideo,
+                 Double voteAverage) {
+        this.id = id;
         this.posterPath = posterPath;
         this.isAdult = isAdult;
         this.overview = overview;
         this.releaseDate = releaseDate;
-        this.genreIds = genreIds;
-        this.id = id;
+        this.externalId = externalId;
         this.originalTitle = originalTitle;
         this.originalLanguage = originalLanguage;
         this.title = title;
@@ -83,20 +92,12 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public List<Integer> getGenreIds() {
-        return genreIds;
+    public Integer getExternalId() {
+        return externalId;
     }
 
-    public void setGenreIds(List<Integer> genreIds) {
-        this.genreIds = genreIds;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public void setExternalId(Integer externalId) {
+        this.externalId = externalId;
     }
 
     public String getOriginalTitle() {
