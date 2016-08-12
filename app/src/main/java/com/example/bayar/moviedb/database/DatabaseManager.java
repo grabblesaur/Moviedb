@@ -20,9 +20,9 @@ public class DatabaseManager {
         mDatabase = helper.getWritableDatabase();
     }
 
-    public void insertMovies(List<com.example.bayar.moviedb.model.Movie> movieList) {
+    public void insertMovies(List<Movie> movieList) {
         Log.d(TAG, "insertMovies(): ");
-        for (com.example.bayar.moviedb.model.Movie movie : movieList) {
+        for (Movie movie : movieList) {
 
             ContentValues contentValues = new ContentValues();
 
@@ -30,7 +30,6 @@ public class DatabaseManager {
             contentValues.put(DatabaseHelper.MOVIE_ADULT, movie.getAdult() ? 1 : 0);
             contentValues.put(DatabaseHelper.MOVIE_OVERVIEW, movie.getOverview());
             contentValues.put(DatabaseHelper.MOVIE_RELEASE_DATE, movie.getReleaseDate());
-            contentValues.put(DatabaseHelper.MOVIE_EXTERNAL_ID, movie.getExternalId());
             contentValues.put(DatabaseHelper.MOVIE_ORIGINAL_TITLE, movie.getOriginalTitle());
             contentValues.put(DatabaseHelper.MOVIE_ORIGINAL_LANGUAGE, movie.getOriginalLanguage());
             contentValues.put(DatabaseHelper.MOVIE_TITLE, movie.getTitle());
@@ -45,27 +44,23 @@ public class DatabaseManager {
         }
     }
 
-    public void removeMovies() {
-        Log.d(TAG, "removeMovies(): ");
+    public void removeMoviesFromDatabase() {
+        Log.d(TAG, "removeMoviesFromDatabase(): ");
         mDatabase.delete(DatabaseHelper.MOVIE_TABLE, null, null);
         Log.d(TAG, "All rows are successfully removed.");
     }
 
     public int getRowCount() {
         Log.d(TAG, "getRowCount(): ");
-        Cursor cursor = mDatabase.query(DatabaseHelper.MOVIE_TABLE, null, null,
-                null, null, null, null);
-        int count = 0;
 
-        if (cursor.moveToFirst()) {
-            do {
-                count++;
-            } while (cursor.moveToNext());
-        } else {
-            return 0;
-        }
-
+        String query = "SELECT count(*) FROM " + DatabaseHelper.MOVIE_TABLE;
+        Cursor cursor = mDatabase.rawQuery(query, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
         cursor.close();
+
+        Log.d(TAG, "count = " + count);
+
         return count;
     }
 
@@ -85,7 +80,6 @@ public class DatabaseManager {
             int idAdult = cursor.getColumnIndex(DatabaseHelper.MOVIE_ADULT);
             int idOverview = cursor.getColumnIndex(DatabaseHelper.MOVIE_OVERVIEW);
             int idReleaseDate = cursor.getColumnIndex(DatabaseHelper.MOVIE_RELEASE_DATE);
-            int idExternalIndex = cursor.getColumnIndex(DatabaseHelper.MOVIE_EXTERNAL_ID);
             int idOriginalTitle = cursor.getColumnIndex(DatabaseHelper.MOVIE_ORIGINAL_TITLE);
             int idOriginalLanguage = cursor.getColumnIndex(DatabaseHelper.MOVIE_ORIGINAL_LANGUAGE);
             int idTitle = cursor.getColumnIndex(DatabaseHelper.MOVIE_TITLE);
@@ -104,7 +98,6 @@ public class DatabaseManager {
                         isAdult,
                         cursor.getString(idOverview),
                         cursor.getString(idReleaseDate),
-                        cursor.getInt(idExternalIndex),
                         cursor.getString(idOriginalTitle),
                         cursor.getString(idOriginalLanguage),
                         cursor.getString(idTitle),

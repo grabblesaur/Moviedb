@@ -16,7 +16,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MOVIE_ADULT = "is_adult";
     public static final String MOVIE_OVERVIEW = "overview";
     public static final String MOVIE_RELEASE_DATE = "release_date";
-    public static final String MOVIE_EXTERNAL_ID = "id";
     public static final String MOVIE_ORIGINAL_TITLE = "original_title";
     public static final String MOVIE_ORIGINAL_LANGUAGE = "original_language";
     public static final String MOVIE_TITLE = "title";
@@ -27,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String MOVIE_VOTE_AVERAGE = "vote_average";
 
     public static final String[] MOVIE_COLUMNS = {MOVIE_ID, MOVIE_POSTER_PATH, MOVIE_ADULT, MOVIE_OVERVIEW,
-    MOVIE_RELEASE_DATE, MOVIE_EXTERNAL_ID, MOVIE_ORIGINAL_TITLE, MOVIE_ORIGINAL_LANGUAGE,
+    MOVIE_RELEASE_DATE, MOVIE_ORIGINAL_TITLE, MOVIE_ORIGINAL_LANGUAGE,
     MOVIE_TITLE, MOVIE_BACKDROP_PATH, MOVIE_POPULARITY, MOVIE_VOTE_COUNT, MOVIE_HAS_VIDEO,
     MOVIE_VOTE_AVERAGE};
 
@@ -44,7 +43,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "%s integer, " +
                         "%s text, " +
                         "%s text, " +
-                        "%s integer, " +
                         "%s text, " +
                         "%s text, " +
                         "%s text, " +
@@ -54,7 +52,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         "%s integer, " +
                         "%s real)",
                 MOVIE_TABLE, MOVIE_ID, MOVIE_POSTER_PATH, MOVIE_ADULT, MOVIE_OVERVIEW,
-                MOVIE_RELEASE_DATE, MOVIE_EXTERNAL_ID, MOVIE_ORIGINAL_TITLE, MOVIE_ORIGINAL_LANGUAGE,
+                MOVIE_RELEASE_DATE, MOVIE_ORIGINAL_TITLE, MOVIE_ORIGINAL_LANGUAGE,
                 MOVIE_TITLE, MOVIE_BACKDROP_PATH, MOVIE_POPULARITY, MOVIE_VOTE_COUNT, MOVIE_HAS_VIDEO,
                 MOVIE_VOTE_AVERAGE
         );

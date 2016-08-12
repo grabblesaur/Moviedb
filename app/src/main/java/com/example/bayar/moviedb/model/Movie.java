@@ -3,7 +3,7 @@ package com.example.bayar.moviedb.model;
 import com.google.gson.annotations.SerializedName;
 
 public class Movie {
-    private transient long id;
+    private long id;
 
     public long getId() {
         return id;
@@ -21,8 +21,6 @@ public class Movie {
     private String overview;
     @SerializedName("release_date")
     private String releaseDate;
-    @SerializedName("id")
-    private Integer externalId;
     @SerializedName("original_title")
     private String originalTitle;
     @SerializedName("original_language")
@@ -41,7 +39,7 @@ public class Movie {
     private Double voteAverage;
 
     public Movie(long id, String posterPath, Boolean isAdult, String overview, String releaseDate,
-                 Integer externalId, String originalTitle, String originalLanguage, String title,
+                 String originalTitle, String originalLanguage, String title,
                  String backdropPath, Double popularity, Integer voteCount, Boolean hasVideo,
                  Double voteAverage) {
         this.id = id;
@@ -49,7 +47,6 @@ public class Movie {
         this.isAdult = isAdult;
         this.overview = overview;
         this.releaseDate = releaseDate;
-        this.externalId = externalId;
         this.originalTitle = originalTitle;
         this.originalLanguage = originalLanguage;
         this.title = title;
@@ -90,14 +87,6 @@ public class Movie {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    public Integer getExternalId() {
-        return externalId;
-    }
-
-    public void setExternalId(Integer externalId) {
-        this.externalId = externalId;
     }
 
     public String getOriginalTitle() {
