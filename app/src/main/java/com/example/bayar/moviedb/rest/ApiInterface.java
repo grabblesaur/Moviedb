@@ -17,4 +17,5 @@ public interface ApiInterface {
                                         @Query("api_key") String apiKey);
 
     // http://image.tmdb.org/t/p/w500/9O7gLzmreU0nGkIB6K3BsJbzvNv.jpg
+    // http://api.themoviedb.org/3/movie/top_rated?api_key=21f91637045fc30ac59759b75acc9ca0
 }

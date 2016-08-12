@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.example.bayar.moviedb.R;
 import com.example.bayar.moviedb.adapter.MoviesAdapter;
+import com.example.bayar.moviedb.database.DatabaseHelper;
+import com.example.bayar.moviedb.database.DatabaseManager;
 import com.example.bayar.moviedb.model.Movie;
 import com.example.bayar.moviedb.model.MovieResponse;
 import com.example.bayar.moviedb.rest.ApiClient;
@@ -23,11 +25,13 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String TAG = MainActivity.class.getSimpleName();
     public static final String API_KEY = "21f91637045fc30ac59759b75acc9ca0";
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    private List<Movie> mMovieList;
+    private DatabaseManager mDatabaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        mDatabaseManager = new DatabaseManager(databaseHelper);
 
+        if (mDatabaseManager.getRowCount() == 0) {
+            fetchData();
+        } else {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            mMovieList = mDatabaseManager.getMovies();
+            mRecyclerView.setAdapter(new MoviesAdapter(this, mMovieList));
+        }
+    }
+
+    private void fetchData() {
+        Log.d(DatabaseManager.TAG, "fetchData(): ");
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         // создание сервиса
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
 
@@ -45,15 +62,24 @@ public class MainActivity extends AppCompatActivity {
         call.enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                List<Movie> movies = response.body().getResults();
-                Log.d(TAG, "Numbeer of movies received: " + movies.size());
-                mRecyclerView.setAdapter(new MoviesAdapter(MainActivity.this, movies));
+                mMovieList = response.body().getResults();
+                Log.d(DatabaseManager.TAG, "Number of movies received: " + mMovieList.size());
+                mRecyclerView.setAdapter(new MoviesAdapter(MainActivity.this, mMovieList));
             }
 
             @Override
             public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.e(TAG, t.toString());
+                Log.e(DatabaseManager.TAG, t.toString());
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        Log.d(DatabaseManager.TAG, "onStop(): ");
+        mDatabaseManager.removeMoviesFromDatabase();
+        mDatabaseManager.insertMovies(mMovieList);
     }
 }
