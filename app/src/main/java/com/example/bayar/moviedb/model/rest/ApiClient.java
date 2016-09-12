@@ -1,4 +1,4 @@
-package com.example.bayar.moviedb.rest;
+package com.example.bayar.moviedb.model.rest;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

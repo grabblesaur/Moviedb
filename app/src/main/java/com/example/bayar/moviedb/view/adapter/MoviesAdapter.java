@@ -1,4 +1,4 @@
-package com.example.bayar.moviedb.adapter;
+package com.example.bayar.moviedb.view.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bayar.moviedb.R;
-import com.example.bayar.moviedb.activity.DetailActivity;
+import com.example.bayar.moviedb.view.activity.DetailActivity;
 import com.example.bayar.moviedb.model.Movie;
 
 import java.util.List;

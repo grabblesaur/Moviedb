@@ -1,4 +1,4 @@
-package com.example.bayar.moviedb.rest;
+package com.example.bayar.moviedb.model.rest;
 
 import com.example.bayar.moviedb.model.MovieResponse;
 

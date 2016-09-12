@@ -1,6 +1,7 @@
-package com.example.bayar.moviedb.database;
+package com.example.bayar.moviedb.model.database;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -16,8 +17,8 @@ public class DatabaseManager {
 
     private SQLiteDatabase mDatabase;
 
-    public DatabaseManager(DatabaseHelper helper) {
-        mDatabase = helper.getWritableDatabase();
+    public DatabaseManager(Context context) {
+        mDatabase = new DatabaseHelper(context).getWritableDatabase();
     }
 
     public void insertMovies(List<Movie> movieList) {

@@ -1,4 +1,4 @@
-package com.example.bayar.moviedb.activity;
+package com.example.bayar.moviedb.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

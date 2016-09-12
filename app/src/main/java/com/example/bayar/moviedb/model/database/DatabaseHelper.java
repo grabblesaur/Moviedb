@@ -1,4 +1,4 @@
-package com.example.bayar.moviedb.database;
+package com.example.bayar.moviedb.model.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
