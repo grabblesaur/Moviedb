@@ -42,4 +42,8 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.6.1'
     provided 'javax.annotation:jsr250-api:1.0'
 
+    //rx
+    compile 'io.reactivex:rxjava:1.1.9'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
 }

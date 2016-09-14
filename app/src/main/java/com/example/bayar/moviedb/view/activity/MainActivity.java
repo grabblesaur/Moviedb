@@ -1,9 +1,11 @@
 package com.example.bayar.moviedb.view.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.example.bayar.moviedb.R;
 import com.example.bayar.moviedb.dagger2.App;
@@ -19,12 +21,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView{
 
     @Inject
     MainPresenter presenter;
-
-    public static final String API_KEY = "21f91637045fc30ac59759b75acc9ca0";
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -38,33 +38,31 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         App.getComponent().inject(this);
         unbinder = ButterKnife.bind(this);
+        presenter.setView(this);
 
+        mMovieList = presenter.initMovieList();
 
-        // need to init mMovieList
-        // если бд пуста, то фетчим с сервера
-        // если бд есть, но есть инет, то фетчим с сервера
-        // если бд есть, но нет интернета, то фетчим с бд
-
-
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new MoviesAdapter(this, mMovieList));
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        presenter.onPause(mMovieList);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume(); // always call a superclass method first!
-        presenter.onResume();
+        if (mMovieList != null) {
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            mRecyclerView.setAdapter(new MoviesAdapter(this, mMovieList));
+        } else {
+            Toast.makeText(this, "mMovieList is null", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
+    }
+
+    @Override
+    public Context getMainViewContext() {
+        return this;
+    }
+
+    @Override
+    public void showNoConnectionNoDatabaseMessage() {
+        Toast.makeText(this, "Please, check your internet connection", Toast.LENGTH_LONG).show();
     }
 }

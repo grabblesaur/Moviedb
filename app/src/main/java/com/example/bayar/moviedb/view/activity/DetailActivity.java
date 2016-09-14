@@ -41,6 +41,7 @@ public class DetailActivity extends AppCompatActivity {
         mTextViewList.get(2).setText(intent.getStringExtra("rating"));
         mTextViewList.get(3).setText(intent.getStringExtra("popularity"));
         mOverview.setText(intent.getStringExtra("overview"));
+
         setUpPoster(intent.getStringExtra("poster_path"));
     }
 
