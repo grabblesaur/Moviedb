@@ -1,6 +1,6 @@
 package com.example.bayar.moviedb.dagger2;
 
-import com.example.bayar.moviedb.presentation.MainPresenterImpl;
+import com.example.bayar.moviedb.presentation.MainPresenter;
 import com.example.bayar.moviedb.view.activity.MainActivity;
 
 import javax.inject.Singleton;
@@ -12,6 +12,6 @@ import dagger.Component;
 public interface AppComponent {
 
     void inject(MainActivity target);
-    void inject(MainPresenterImpl target);
+    void inject(MainPresenter target);
 
 }

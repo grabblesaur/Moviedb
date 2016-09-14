@@ -9,6 +9,7 @@ import com.example.bayar.moviedb.model.rest.ApiInterface;
 
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,26 +44,7 @@ public class MovieModel {
     }
 
     public List<Movie> getMoviesFromServer() {
-
         Log.d(TAG, "getMoviesFromServer: ");
-//        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
-//        Call<MovieResponse> call = apiService.getTopRatedMovies(API_KEY);
-//        call.enqueue(new Callback<MovieResponse>() {
-//            @Override
-//            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-//                list = response.body().getResults();
-//                Log.d(TAG, "onResponse: list = " + list);
-//                Log.d(TAG, "onResponse: thread: " + Thread.currentThread().getName());
-//            }
-//
-//            @Override
-//            public void onFailure(Call<MovieResponse> call, Throwable t) {
-//                list = Collections.emptyList();
-//                Log.d(TAG, "onFailure: ");
-//            }
-//        });
-
-
         // TODO необходимо передавать Observable и выполнять его в презентере!
         ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
         Subscription apiSubscription =
@@ -90,5 +72,11 @@ public class MovieModel {
 
         Log.d(TAG, "getMoviesFromServer: list = " + list);
         return list;
+    }
+
+    public Observable<MovieResponse> getMovieListObservableFromServer() {
+        Log.d(TAG, "getMovieListObservable: ");
+        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        return apiService.getTopRatedMoviesRx(API_KEY);
     }
 }
